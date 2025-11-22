@@ -1,0 +1,14 @@
+.products-page {
+  padding: 20px;
+}
+
+.products-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 18px;
+}
