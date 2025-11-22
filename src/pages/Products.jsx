@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
-import "../styles/Products.css";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -8,7 +7,7 @@ function Products() {
 
   useEffect(() => {
         console.log("Making Products call")
-        fetch("/api/products", {
+        fetch("https://fakestoreapi.com/products", {
 			method: "GET",
 		})   // Use your backend endpoint
       	.then(res => res.json())

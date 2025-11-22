@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../styles/ProductCard.css";
 
 function ProductCard({ title, price, image }) {
   const [added, setAdded] = useState(false);

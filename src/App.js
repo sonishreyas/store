@@ -1,5 +1,5 @@
 import Products from "./pages/Products";
-import "./App.css";
+import "./styles/index.css";
 
 function App() {
   return (
