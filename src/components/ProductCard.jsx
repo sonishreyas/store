@@ -1,7 +1,17 @@
 import { useState } from "react";
 
-function ProductCard({ title, price, image }) {
+function ProductCard({ id, title, price, image, onViewDetails }) {
   const [added, setAdded] = useState(false);
+
+  const handleToggleCart = (e) => {
+    e.stopPropagation(); // avoid triggering card click if you add it later
+    setAdded((prev) => !prev);
+  };
+
+  const handleViewDetailsClick = (e) => {
+    e.stopPropagation();
+    if (onViewDetails) onViewDetails(id);
+  };
 
   return (
     <div className="product-card">
@@ -11,11 +21,12 @@ function ProductCard({ title, price, image }) {
       <p className="product-price">₹{price}</p>
 
       <div className="action-section">
-        <button 
-          className="action-btn" 
-          onClick={() => setAdded(!added)}
-        >
+        <button className="action-btn" onClick={handleToggleCart}>
           {added ? "Remove from Cart" : "Add to Cart"}
+        </button>
+
+        <button className="secondary-btn" onClick={handleViewDetailsClick}>
+          View Details
         </button>
       </div>
     </div>
