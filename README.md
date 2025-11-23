@@ -1,8 +1,8 @@
-# 📍 Day 3 — Routing, Dynamic UI & Server Integration
+# 📍 Day 4 — Redux State Management & API Integration
 
-Today’s goal is to make the application navigable, dynamic, and connected to backend data using **React Router** and **data-fetching patterns**.
+This branch introduces **global state management using Redux Toolkit** and improves the application by keeping shared UI state consistent across multiple components.
 
-This day covers the largest chunk of real development skills — routing, navigation, dynamic rendering, and reading values from the URL.
+By the end of Day 4, the app becomes a real mini-store with cart logic connected globally instead of component-level state.
 
 ---
 
@@ -10,143 +10,119 @@ This day covers the largest chunk of real development skills — routing, naviga
 
 | Concept | Status |
 |---------|--------|
-| Setting up routing using `react-router-dom` | ✔ |
-| Creating multiple pages | ✔ |
-| Route Parameters (`/products/:id`) | ✔ |
-| Navigation using `Link` and `useNavigate()` | ✔ |
-| Lazy loading pages (`React.lazy` + `Suspense`) | ✔ |
-| Fetch product details dynamically based on route param | ✔ |
-| Optional: Search filter for product listing | ✔ |
+| Setting up Redux store using Redux Toolkit | ✔ |
+| Creating slices (reducers + actions) | ✔ |
+| Using selectors to access global state | ✔ |
+| Dispatching actions from components | ✔ |
+| Using `createAsyncThunk` for API calls | ✔ |
+| Replacing component state with shared global store values | ✔ |
 
 ---
 
-## 🧠 Key Concepts Explained
+## 🧠 Key Concepts
 
-### 1️⃣ **React Router**
+### 1️⃣ Global State
 
-React Router allows SPA apps to change UI without refreshing the page.
+Unlike component state (`useState`) which belongs to a single component, **Redux global state** is shared across the application.
 
-Core components used today:
+Redux solves:
+
+- Prop drilling (passing props through multiple components unnecessarily)
+- Multiple components needing access to the same data
+- Syncing UI elements (like cart count + product card buttons)
+
+---
+
+### 2️⃣ Redux Toolkit (RTK)
+
+RTK is the recommended way to use Redux because it:
+
+- Reduces boilerplate
+- Automatically generates actions
+- Supports async logic cleanly
+
+Core APIs used:
 
 | API | Purpose |
 |------|--------|
-| `<BrowserRouter>` | Enables routing |
-| `<Routes>` / `<Route>` | Defines pages and paths |
-| `NavLink` | Creates navigation links with active styling |
-| `useNavigate()` | Navigate programmatically (ex: button click) |
-| `useParams()` | Read dynamic values from the URL (`:id`) |
+| `configureStore()` | Creates the Redux store |
+| `createSlice()` | Generates actions + reducer |
+| `createAsyncThunk()` | Handles async calls (API fetching) |
+| `useDispatch()` | Send actions |
+| `useSelector()` | Read global state |
 
 ---
 
-### 2️⃣ **Dynamic Routes (`:id`)**
+### 3️⃣ Slices Used Today
 
-When a URL contains a placeholder, e.g.:
+| Slice | Responsibility |
+|-------|---------------|
+| `cartSlice` | Stores items and cart count |
+| `productsSlice` | Stores product list from backend |
 
-```
-/products/5
-```
-
-React extracts the number (`5`) using:
-
-```js
-const { id } = useParams();
-```
-
-Then we fetch the correct product:
-
-```js
-fetch(`/products/${id}`)
-```
-
-This enables dynamic detail pages.
 
 ---
 
-### 3️⃣ **Lazy Loading & Suspense**
+### 4️⃣ Async Thunks for API Calls
 
-Instead of loading all pages at once, we load them **only when needed**.
+The `productsSlice` uses `createAsyncThunk()` to fetch backend product data and automatically manages:
 
-Example:
-
-```js
-const Products = React.lazy(() => import("./pages/Products"));
-```
-
-This improves performance and matches modern React patterns.
+- Loading state
+- Success state
+- Error state
 
 ---
 
-### 4️⃣ **Search Filter Logic**
+### 5️⃣ Updating UI via Redux Instead of Local State
 
-The page reads the search text and filters products:
+Cart button logic from earlier days was rewritten to use Redux:
 
-```js
-product.title.toLowerCase().includes(searchTerm.toLowerCase())
-```
+- Clicking “Add to Cart” → `dispatch(addToCart(product))`
+- Navbar reads total cart count using `useSelector(selectCartCount)`
 
-This mimics Angular pipes but React does it manually.
-
----
-
-## 📂 Files Added or Updated Today
-
-```
-src/
- ├─ components/
- │   └─ Navbar.jsx
- ├─ pages/
- │   ├─ Products.jsx  (updated)
- │   └─ ProductDetail.jsx
- ├─ App.jsx
- └─ index.js
-```
+This ensures UI stays consistent everywhere.
 
 ---
 
-## 🎨 CSS Class Names Used
+## 📌 Output of Day 4
 
-| Purpose | Class Name |
-|---------|------------|
-| Navigation bar | `navbar`, `nav-link`, `active` |
-| Search bar | `search-input` |
-| Detail layout | `product-detail-card` |
-| Loading text | `loading-text` |
-| Error message | `error-text` |
+✔ Cart uses global Redux store  
+✔ Products loaded via Redux async thunk  
+✔ Navbar displays live cart count  
+✔ ProductCard button correctly toggles using global state  
+✔ App feels consistent and scalable  
 
 ---
 
-## 📌 Expected Output Today
+## 👀 What You Should Be Able to Explain
 
-✔ A working navbar with active style  
-✔ Product list accessible via `/products`  
-✔ Clicking a product opens `/products/:id`  
-✔ Product detail page fetches data from backend  
-✔ Registration form accessible via `/form`  
-✔ Search works dynamically without page reload  
-✔ Lazy loading improves performance  
+- Why Redux is needed when apps grow
+- Difference between local state vs global state
+- How async thunks simplify API calls
+- How UI reacts when Redux state updates
 
 ---
 
-## ⚡ Before Moving to Day 4 — Self-Check
+## 🧪 Checklist Before Finishing
 
-- [ ] Can you explain `useParams()`?
-- [ ] Can you navigate using `useNavigate()`?
-- [ ] Can you add another route if needed?
-- [ ] Can you modify the product detail layout confidently?
-
-If yes → proceed to the final stage.
-
----
-
-## ▶️ Next Step
-
-Once everything works smoothly, move to the next branch:
-
-```
-git checkout -b 04-redux-final
-```
+- [ ] You can create a new slice without help  
+- [ ] You can dispatch actions from a component  
+- [ ] You can retrieve data using selectors  
+- [ ] You understand where Redux is better than `useState`  
+- [ ] You verified cart logic works across multiple screens  
 
 ---
 
-Routing is now complete — the app finally behaves like a real multi-page web application.  
-Day 4 will introduce **Redux and global state management.**
+## ▶️ Final Step
+
+This is the last technical milestone.  
+You now have:
+
+- Routing  
+- Forms  
+- API communication  
+- Redux global state  
+
+Your app now matches real-world architecture standards.
+
+---

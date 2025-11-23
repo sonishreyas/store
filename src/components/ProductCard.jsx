@@ -1,11 +1,19 @@
-import { useState } from "react";
+// src/components/ProductCard.jsx
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart, selectIsInCart } from "../store/cartSlice";
 
 function ProductCard({ id, title, price, image, onViewDetails }) {
-  const [added, setAdded] = useState(false);
+  const dispatch = useDispatch();
+  const isInCart = useSelector(selectIsInCart(id));
 
   const handleToggleCart = (e) => {
-    e.stopPropagation(); // avoid triggering card click if you add it later
-    setAdded((prev) => !prev);
+    e.stopPropagation();
+
+    if (isInCart) {
+      dispatch(removeFromCart(id));
+    } else {
+      dispatch(addToCart({ id, title, price, image }));
+    }
   };
 
   const handleViewDetailsClick = (e) => {
@@ -22,7 +30,7 @@ function ProductCard({ id, title, price, image, onViewDetails }) {
 
       <div className="action-section">
         <button className="action-btn" onClick={handleToggleCart}>
-          {added ? "Remove from Cart" : "Add to Cart"}
+          {isInCart ? "Remove from Cart" : "Add to Cart"}
         </button>
 
         <button className="secondary-btn" onClick={handleViewDetailsClick}>

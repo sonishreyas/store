@@ -1,7 +1,11 @@
 // src/components/Navbar.jsx
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCartCount } from "../store/cartSlice";
 
 function Navbar() {
+  const cartCount = useSelector(selectCartCount);
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">Store</div>
@@ -24,6 +28,10 @@ function Navbar() {
         >
           Registration Form
         </NavLink>
+
+        <div className="cart-indicator">
+          Cart: <span className="cart-count">{cartCount}</span>
+        </div>
       </div>
     </nav>
   );

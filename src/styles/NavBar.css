@@ -29,3 +29,13 @@
   color: #fff;
   border-bottom: 2px solid #fff;
 }
+
+.cart-indicator {
+  color: #fff;
+  font-size: 14px;
+}
+
+.cart-count {
+  font-weight: bold;
+  margin-left: 4px;
+}
