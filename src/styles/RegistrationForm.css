@@ -1,0 +1,38 @@
+.form-page {
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input, select {
+  padding: 6px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+}
+
+.submit-btn {
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn:disabled {
+  background: grey;
+  cursor: not-allowed;
+}
