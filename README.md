@@ -1,142 +1,152 @@
-# 📍 Day 2 — Forms, Validation & Data Binding
+# 📍 Day 3 — Routing, Dynamic UI & Server Integration
 
-This branch focuses on handling user input in React using **controlled components** and applying **validation rules** using both simple conditions and reusable utilities.
+Today’s goal is to make the application navigable, dynamic, and connected to backend data using **React Router** and **data-fetching patterns**.
 
-By the end of Day 2, the form should validate in real time and prevent submission until all conditions are met.
+This day covers the largest chunk of real development skills — routing, navigation, dynamic rendering, and reading values from the URL.
 
 ---
 
 ## 🎯 Learning Objectives
 
-| Topic | Status |
-|-------|--------|
-| Controlled vs uncontrolled inputs | ✔ |
-| Managing form state using `useState()` | ✔ |
-| Live validation with conditional rendering | ✔ |
-| Regex-based validation (email, phone, pincode) | ✔ |
-| Custom validation utility functions | ✔ |
-| Creating and using a custom hook | ✔ |
-| Disabling button until form is valid | ✔ |
+| Concept | Status |
+|---------|--------|
+| Setting up routing using `react-router-dom` | ✔ |
+| Creating multiple pages | ✔ |
+| Route Parameters (`/products/:id`) | ✔ |
+| Navigation using `Link` and `useNavigate()` | ✔ |
+| Lazy loading pages (`React.lazy` + `Suspense`) | ✔ |
+| Fetch product details dynamically based on route param | ✔ |
+| Optional: Search filter for product listing | ✔ |
 
 ---
 
-## 🧠 Key Concepts
+## 🧠 Key Concepts Explained
 
-### Controlled Input
-A controlled input is where **React manages the value** of the input through state.
+### 1️⃣ **React Router**
+
+React Router allows SPA apps to change UI without refreshing the page.
+
+Core components used today:
+
+| API | Purpose |
+|------|--------|
+| `<BrowserRouter>` | Enables routing |
+| `<Routes>` / `<Route>` | Defines pages and paths |
+| `NavLink` | Creates navigation links with active styling |
+| `useNavigate()` | Navigate programmatically (ex: button click) |
+| `useParams()` | Read dynamic values from the URL (`:id`) |
+
+---
+
+### 2️⃣ **Dynamic Routes (`:id`)**
+
+When a URL contains a placeholder, e.g.:
+
+```
+/products/5
+```
+
+React extracts the number (`5`) using:
+
+```js
+const { id } = useParams();
+```
+
+Then we fetch the correct product:
+
+```js
+fetch(`/products/${id}`)
+```
+
+This enables dynamic detail pages.
+
+---
+
+### 3️⃣ **Lazy Loading & Suspense**
+
+Instead of loading all pages at once, we load them **only when needed**.
 
 Example:
 
-```jsx
-<input value={name} onChange={(e) => setName(e.target.value)} />
+```js
+const Products = React.lazy(() => import("./pages/Products"));
 ```
 
-### Validation Rules Implemented
-
-| Field | Requirement |
-|-------|------------|
-| Name | 3–50 characters |
-| Email | Valid format + must end with `@infosys.com` |
-| Mobile | Exactly 10 digits |
-| Pin Code | Exactly 6 digits |
-| Gender | Required (radio button) |
-| Role | Required (dropdown select) |
+This improves performance and matches modern React patterns.
 
 ---
 
-## 📂 Files Added or Updated in This Branch
+### 4️⃣ **Search Filter Logic**
+
+The page reads the search text and filters products:
+
+```js
+product.title.toLowerCase().includes(searchTerm.toLowerCase())
+```
+
+This mimics Angular pipes but React does it manually.
+
+---
+
+## 📂 Files Added or Updated Today
 
 ```
 src/
+ ├─ components/
+ │   └─ Navbar.jsx
  ├─ pages/
- │   └─ RegistrationForm.jsx
- ├─ hooks/
- │   └─ useFormValidation.js
- └─ utils/
-     └─ validators.js
+ │   ├─ Products.jsx  (updated)
+ │   └─ ProductDetail.jsx
+ ├─ App.jsx
+ └─ index.js
 ```
 
 ---
 
-## 🧩 New Concepts Implemented Today
-
-### ✓ Utility-Based Validation
-
-Validation logic was moved into:
-
-```
-src/utils/validators.js
-```
-
-This ensures:
-
-- Cleaner components  
-- Reusable logic  
-- Easier maintenance  
-
----
-
-### ✓ Custom Hook for Form Handling
-
-`useFormValidation.js` centralizes state and validation logic:
-
-- Stores form values  
-- Stores validation errors  
-- Exposes `handleChange` to bind inputs  
-- Provides `isFormValid` for disabling submit  
-
----
-
-## 🎨 Relevant CSS Class Names
+## 🎨 CSS Class Names Used
 
 | Purpose | Class Name |
 |---------|------------|
-| Page container | `form-page` |
-| Form wrapper | `registration-form` |
-| Error text | `error-text` |
-| Radio group layout | `radio-group` |
-| Submit button | `submit-btn` |
+| Navigation bar | `navbar`, `nav-link`, `active` |
+| Search bar | `search-input` |
+| Detail layout | `product-detail-card` |
+| Loading text | `loading-text` |
+| Error message | `error-text` |
 
 ---
 
 ## 📌 Expected Output Today
 
-✔ A working registration form  
-✔ Validation messages appear only when invalid  
-✔ Input values fully controlled by React  
-✔ Submit button disabled until all fields are valid  
-✔ Custom validation hook + reusable validators implemented  
+✔ A working navbar with active style  
+✔ Product list accessible via `/products`  
+✔ Clicking a product opens `/products/:id`  
+✔ Product detail page fetches data from backend  
+✔ Registration form accessible via `/form`  
+✔ Search works dynamically without page reload  
+✔ Lazy loading improves performance  
 
 ---
 
-## ⚡ Before Moving to Day 3 — Complete This Checklist
+## ⚡ Before Moving to Day 4 — Self-Check
 
-- [ ] You can explain what a **controlled component** is  
-- [ ] You can modify/add validation rules yourself  
-- [ ] You can add another field (example: age, city) without help  
-- [ ] You understand how the custom hook returns state and validation  
+- [ ] Can you explain `useParams()`?
+- [ ] Can you navigate using `useNavigate()`?
+- [ ] Can you add another route if needed?
+- [ ] Can you modify the product detail layout confidently?
 
-If yes → move forward.
-
----
-
-## ❓ Quick Knowledge Check
-
-- Why do we use controlled components?
-- When does `useEffect` belong inside a form?
-- What is the benefit of extracting validation into a separate file?
-- How does disabling the button improve UX?
+If yes → proceed to the final stage.
 
 ---
 
 ## ▶️ Next Step
 
-Once comfortable with the form logic and validations:
+Once everything works smoothly, move to the next branch:
 
 ```
-git checkout -b 03-routing-integration
+git checkout -b 04-redux-final
 ```
 
 ---
 
-Well done — now the UI is interactive and intelligent. Day 3 will introduce **routing and navigation**.
+Routing is now complete — the app finally behaves like a real multi-page web application.  
+Day 4 will introduce **Redux and global state management.**
